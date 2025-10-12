@@ -38,6 +38,9 @@ namespace MartinGC94.MonitorConfig.Native
         internal static extern bool DestroyPhysicalMonitor(IntPtr hMonitor);
 
         [DllImport("dxva2.dll", ExactSpelling = true, SetLastError = true)]
+        internal static extern bool DestroyPhysicalMonitors(uint dwPhysicalMonitorArraySize, PhysicalMonitor[] pPhysicalMonitorArray);
+
+        [DllImport("dxva2.dll", ExactSpelling = true, SetLastError = true)]
         internal static extern bool GetMonitorBrightness(IntPtr hMonitor, out uint pdwMinimumBrightness, out uint pdwCurrentBrightness, out uint pdwMaximumBrightness);
 
         [DllImport("dxva2.dll", ExactSpelling = true, SetLastError = true)]

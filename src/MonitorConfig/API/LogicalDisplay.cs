@@ -65,13 +65,13 @@ namespace MartinGC94.MonitorConfig.API
         {
             if (!NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(displayHandle, out uint monitorCount))
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new ApiException($"Failed to get the number of physical monitors attached to '{DeviceName}'.", new Win32Exception(Marshal.GetLastWin32Error()));
             }
 
             var result = new PhysicalMonitor[monitorCount];
             if (!NativeMethods.GetPhysicalMonitorsFromHMONITOR(displayHandle, monitorCount, result))
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new ApiException($"Failed to get the physical monitors attached to '{DeviceName}'.", new Win32Exception(Marshal.GetLastWin32Error()));
             }
 
             return result;

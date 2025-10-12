@@ -56,6 +56,9 @@ namespace MartinGC94.MonitorConfig.API
                             return ErrorCategory.NotSpecified;
                     }
 
+                case ApiException apiError:
+                    return GetErrorCategory(apiError.InnerException);
+
                 case ArgumentNullException _:
                 case ArgumentException _:
                     return ErrorCategory.InvalidArgument;

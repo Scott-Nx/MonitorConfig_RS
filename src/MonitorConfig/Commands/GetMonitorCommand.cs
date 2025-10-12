@@ -48,8 +48,28 @@ namespace MartinGC94.MonitorConfig.Commands
             // The logic here assumes that the output from GetPhysicalMonitors and GetDisplayDevices matches 1:1
             // Meaning that both the count and item order has to match (which from test observations seems to be true)
             // The only scenario where it has been observed not to be true is in headless scenarios, but GetPhysicalMonitors will throw in that scenario anyway.
-            PhysicalMonitor[] physicalMonitors = logicalDisplay.GetPhysicalMonitors();
+            PhysicalMonitor[] physicalMonitors;
+            try
+            {
+                physicalMonitors = logicalDisplay.GetPhysicalMonitors();
+            }
+            catch (ApiException exception)
+            {
+                WriteError(new ErrorRecord(exception, "GetPhysicalMonitors", Utils.GetErrorCategory(exception), logicalDisplay));
+                return;
+            }
+
             List<DisplayDevice> physicalDisplayInfo = logicalDisplay.GetDisplayDevices();
+            if (physicalDisplayInfo.Count != physicalMonitors.Length)
+            {
+                _ = NativeMethods.DestroyPhysicalMonitors((uint)physicalMonitors.Length, physicalMonitors);
+                WriteError(new ErrorRecord(
+                    new System.Exception($"Found {physicalDisplayInfo.Count} display devices when {physicalMonitors.Length} was expected."),
+                    "DisplayDeviceAndPhysicalMonitorMismatch",
+                    ErrorCategory.InvalidResult,
+                    logicalDisplay));
+                return;
+            }
 
             for (int i = 0; i < physicalMonitors.Length; i++)
             {
