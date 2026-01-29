@@ -84,6 +84,21 @@ impl VcpMonitor {
         }
     }
 
+    /// Scan all VCP codes (0x00-0xFF) and return the ones supported by the monitor
+    /// Similar to PowerShell's Get-MonitorVCPResponse -All
+    pub fn scan_vcp_features(&self) -> Vec<VcpFeatureResponse> {
+        let mut features = Vec::new();
+        
+        for code in 0u8..=255u8 {
+            if let Ok(response) = self.get_vcp_feature(code) {
+                features.push(response);
+            }
+            // Silently ignore unsupported codes (similar to PowerShell behavior)
+        }
+        
+        features
+    }
+
     pub fn get_capabilities(&self) -> Result<String> {
         unsafe {
             let mut length = 0u32;

@@ -112,11 +112,27 @@ monitor-config set-vcp 0xD6 4 --primary
 ### List Known VCP Codes
 
 ```bash
+# Show reference list of common VCP codes
 monitor-config list-vcp
 
 # JSON output
 monitor-config list-vcp --json
 ```
+
+### Scan Monitor for All Supported VCP Codes
+
+```bash
+# Scan primary monitor for all supported VCP codes
+monitor-config scan-vcp --primary
+
+# Scan specific monitor
+monitor-config scan-vcp --device "\\.\DISPLAY1"
+
+# JSON output for scripting
+monitor-config scan-vcp --primary --json
+```
+
+**Note**: `list-vcp` shows a reference list of common VCP codes, while `scan-vcp` actively queries your monitor to discover which codes it actually supports (similar to PowerShell's `Get-MonitorVCPResponse -All`).
 
 ### Get Monitor Capabilities
 

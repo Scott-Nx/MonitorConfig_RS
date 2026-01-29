@@ -120,6 +120,21 @@ pub enum Commands {
         json: bool,
     },
 
+    /// Scan monitor for all supported VCP codes
+    ScanVcp {
+        /// Device name (e.g., \\.\DISPLAY1) or use --primary
+        #[arg(short, long)]
+        device: Option<String>,
+
+        /// Use primary monitor
+        #[arg(short, long)]
+        primary: bool,
+
+        /// Output in JSON format
+        #[arg(short, long)]
+        json: bool,
+    },
+
     /// Get monitor capabilities string
     GetCapabilities {
         /// Device name (e.g., \\.\DISPLAY1) or use --primary
@@ -204,6 +219,11 @@ pub fn run() -> Result<()> {
             primary,
         } => set_vcp(code, value, device, primary),
         Commands::ListVcp { json } => list_vcp(json),
+        Commands::ScanVcp {
+            device,
+            primary,
+            json,
+        } => scan_vcp(device, primary, json),
         Commands::GetCapabilities { device, primary } => get_capabilities(device, primary),
         Commands::SaveSettings { device, primary } => save_settings(device, primary),
         Commands::ResetDefaults {
@@ -342,6 +362,42 @@ fn list_vcp(json: bool) -> Result<()> {
             );
         }
     }
+    Ok(())
+}
+
+fn scan_vcp(device: Option<String>, primary: bool, json: bool) -> Result<()> {
+    let mon = get_monitor(device, primary)?;
+    let vcp_mon = vcp::VcpMonitor::new(mon.handle());
+    
+    if !json {
+        eprintln!("Scanning monitor for supported VCP codes...");
+    }
+    
+    let features = vcp_mon.scan_vcp_features();
+    
+    if json {
+        println!("{}", serde_json::to_string_pretty(&features)?);
+    } else {
+        eprintln!("Found {} supported VCP codes\n", features.len());
+        println!("{:<6} {:<35} {:<12} {:<8} {}", "Code", "Name", "CurrentValue", "MaxValue", "Description");
+        println!("{}", "-".repeat(120));
+        
+        for response in features {
+            let info = vcp::get_vcp_code_info(response.vcp_code);
+            let name = info.map(|i| i.name).unwrap_or("Unknown");
+            let description = info.map(|i| i.description).unwrap_or("");
+            
+            println!(
+                "0x{:02X}   {:<35} {:<12} {:<8} {}",
+                response.vcp_code,
+                name,
+                response.current_value,
+                response.maximum_value,
+                description
+            );
+        }
+    }
+    
     Ok(())
 }
 
