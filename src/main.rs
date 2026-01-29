@@ -1,4 +1,4 @@
-use monitor_config::cli;
+use monitorconfig::cli;
 use std::process;
 
 fn main() {
