@@ -1,10 +1,23 @@
 [package]
-name = "monitor-config"
+name = "monitorconfig"
 version = "1.0.0"
+authors = ["Scott-Nx <158021536+Scott-Nx@users.noreply.github.com>"]
 edition = "2024"
-authors = ["MonitorConfig Contributors"]
 description = "Native Windows CLI tool for managing monitor settings via DDC/CI and WMI"
+documentation = "https://github.com/Scott-Nx/MonitorConfig_RS/tree/main/docs"
+readme = "README.md"
+repository = "https://github.com/Scott-Nx/MonitorConfig_RS"
 license = "MIT"
+keywords = ["monitor", "display", "brightness", "ddc-ci", "windows"]
+categories = ["command-line-utilities", "hardware-support", "os::windows-apis"]
+exclude = ["docs", "examples"]
+publish = false
+
+[profile.release]
+opt-level = 3
+strip = true
+lto = true
+codegen-units = 1
 
 [dependencies]
 windows-sys = { version = "0.61.2", features = [
@@ -16,9 +29,3 @@ anyhow = "1.0.100"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"
 thiserror = "2.0.18"
-
-[profile.release]
-opt-level = 3
-lto = true
-codegen-units = 1
-strip = true
