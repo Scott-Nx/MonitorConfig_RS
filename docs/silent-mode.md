@@ -142,12 +142,12 @@ if ($LASTEXITCODE -ne 0) {
 
 ## Comparison of Methods
 
-| Method | Window Flash | See Errors | Requires Rebuild |
-|--------|--------------|------------|------------------|
-| `--silent` flag | Yes (brief) | Yes (stderr) | No |
-| VBScript wrapper | No | No | No |
-| PowerShell Hidden | Yes (very brief) | Yes | No |
-| GUI subsystem build | No | No | Yes |
+| Method              | Window Flash     | See Errors   | Requires Rebuild |
+| ------------------- | ---------------- | ------------ | ---------------- |
+| `--silent` flag     | Yes (brief)      | Yes (stderr) | No               |
+| VBScript wrapper    | No               | No           | No               |
+| PowerShell Hidden   | Yes (very brief) | Yes          | No               |
+| GUI subsystem build | No               | No           | Yes              |
 
 ## Examples
 

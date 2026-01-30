@@ -46,10 +46,10 @@ cargo build --release --target x86_64-pc-windows-gnu --features gui-subsystem
 
 ## Build Variants
 
-| Build Type | Command | Console Window | Use Case |
-|------------|---------|----------------|----------|
-| Standard | `cargo build --release` | Yes (normal) | Interactive use, testing, debugging |
-| GUI Subsystem | `cargo build --release --features gui-subsystem` | No | Task Scheduler, background tasks, startup scripts |
+| Build Type    | Command                                          | Console Window | Use Case                                          |
+| ------------- | ------------------------------------------------ | -------------- | ------------------------------------------------- |
+| Standard      | `cargo build --release`                          | Yes (normal)   | Interactive use, testing, debugging               |
+| GUI Subsystem | `cargo build --release --features gui-subsystem` | No             | Task Scheduler, background tasks, startup scripts |
 
 ## Feature Flags
 

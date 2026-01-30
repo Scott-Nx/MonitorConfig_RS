@@ -288,8 +288,8 @@ The Rust implementation provides several advantages over the PowerShell module:
 
 ### Command Mapping
 
-| PowerShell Cmdlet        | Rust CLI Command                |
-| ------------------------ | ------------------------------- |
+| PowerShell Cmdlet        | Rust CLI Command               |
+| ------------------------ | ------------------------------ |
 | `Get-Monitor`            | `monitorconfig list`           |
 | `Get-MonitorBrightness`  | `monitorconfig get-brightness` |
 | `Set-MonitorBrightness`  | `monitorconfig set-brightness` |
