@@ -75,7 +75,7 @@ impl Monitor for PhysicalMonitor {
 
             if result == 0 {
                 return Err(crate::MonitorError::UnsupportedOperation(
-                    "GetMonitorContrast failed".to_string(),
+                    "GetMonitorBrightness failed".to_string(),
                 ));
             }
 
